@@ -6,14 +6,18 @@ io.on('connection', function(socket){
   //emit on connect
   socket.emit('ping', { message: 'You have just landed on Mars' + Date.now() });
   //updates every 2 seconds
-  setInterval(simulateUpdate, 2000);
+  setInterval(simulateUpdate, 500);
   function simulateUpdate(){
   	var price=Math.random();
   	
-  	if (price < .3) socket.emit('ping', { stock: 'GPRO', value: price });
-  	else if (price >= .3 && price <.6) socket.emit('ping', { stock: 'TSLA', value: price });
-  	else if (price >= .6) socket.emit('ping', { stock: 'AAPL', value: price });
-  	else socket.emit('ping', { stock: 'no name', value: price });
+  	if (price < .3) socket.emit('ping', { stock: 'GPRO', value: Math.random() });
+  	if (price >= .3 && price <.6) socket.emit('ping', { stock: 'TSLA', value: Math.random() });
+  	if (price >= .6) socket.emit('ping', { stock: 'AAPL', value: Math.random() });
+  	if (price) socket.emit('ping', { stock: 'FORD', value: Math.random() });
+  	if (price) socket.emit('ping', { stock: 'MSFT', value: Math.random() });
+  	if (price>.4) socket.emit('ping', { stock: 'TWTR', value: Math.random() });
+  	if (price>.8) socket.emit('ping', { stock: 'GOOG', value: Math.random() });
+  	
   }
   //receive a pong
   socket.on('pong', function (data) {

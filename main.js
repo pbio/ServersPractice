@@ -7,6 +7,8 @@ socket.on('connect', function() {
     socket.on('ping', function (data) {
     	if (document.getElementById(data.stock)){
     		document.getElementById(data.stock).innerText=data.stock+" "+data.value;
+    		if (data.value>.5) document.getElementById(data.stock).style.color="green";
+    		else document.getElementById(data.stock).style.color="red";
     	}
     	else if (data.stock){
     		var newP=document.createElement("p");
