@@ -6,22 +6,28 @@ var HomePage = React.createClass({
 	
 	loadStatusFromServer: function() {
 		feed.onConnect(
-			//callback1
-		  function(string){
-        	if (string) {
-        		alert("String is real");
-        		this.setState({stocks: string});
-        	}
-        	else {
-        		alert("String is not working!!");
-        	}
-          }.bind(this), 
         	//callback2
           function(string) {
-        	alert("quick pause");
+        	
         	if (string) { 
-        		console.log(JSON.stringify(string));
-        		this.setState({stocks: JSON.stringify(string)});
+        		console.log(string);
+        		var stringObject=JSON.parse(string);
+        
+        		if (stringObject.stock){
+        			
+        			var currentState=this.state.stocks;
+        			for (var i=0; i<currentState.length; i++)
+        				
+        				if (currentState[i].stock==stringObject.stock){
+        					//alert(currentState[i].stock);
+        					currentState[i].value=stringObject.value;
+        					this.setState({stocks: currentState});
+        					}
+        		}
+        		else {
+        			
+        			this.setState({stocks: stringObject});
+        		}
         	}
           }.bind(this)
         ); 
@@ -29,22 +35,19 @@ var HomePage = React.createClass({
 	
     componentDidMount: function() {
     	this.loadStatusFromServer();
-        //feed.onChange(function(string) {
-        //	alert("quick pause");
-        //	if (string) { 
-        //		console.log(JSON.stringify(string));
-        //		this.setState({stocks: JSON.stringify(string)});
-        //	}
-        //}.bind(this));
     },
     
     
     render: function () {
+    	var currentState=this.state.stocks;
+    	var rows = [];
+		for (var i=0; i < currentState.length; i++) {
+    		rows.push(<div><p>{currentState[i].stock} {currentState[i].value}</p></div>);
+		}
+    
         return (
             <div>
-                <div className="row">
-                    <div>{this.state.stocks}</div>
-                </div>
+                {rows}
             </div>
         );
         

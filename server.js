@@ -2,23 +2,23 @@
 var server = require('http').createServer();
 var io = require('socket.io')(server);
 io.on('connection', function(socket){
-  console.log('emit...');
+  console.log('Successful connection to websocket at time t=' + Date.now());
   //emit on connect
-  socket.emit('ping', { message: 'You have just landed on Mars' + Date.now() });
+  //socket.emit('ping', { message: 'Successful connection to websocket at time t=' + Date.now() });
+  
   //updates every 2 seconds
-  setInterval(simulateUpdate, 10000);
+  setInterval(simulateUpdate, 2000);
   function simulateUpdate(){
   	var price=Math.random();
-  	
-  	if (price < .3) socket.emit('ping', { stock: 'GPRO', value: Math.random() });
-  	if (price >= .3 && price <.6) socket.emit('ping', { stock: 'TSLA', value: Math.random() });
-  	if (price >= .6) socket.emit('ping', { stock: 'AAPL', value: Math.random() });
-  	if (price) socket.emit('ping', { stock: 'FORD', value: Math.random() });
-  	if (price) socket.emit('ping', { stock: 'MSFT', value: Math.random() });
-  	if (price>.4) socket.emit('ping', { stock: 'TWTR', value: Math.random() });
-  	if (price>.8) socket.emit('ping', { stock: 'GOOG', value: Math.random() });
-  	
+  	if (price < .3) socket.emit('ping', JSON.stringify({stock: 'GPRO', value: Math.random() }));
+  	if (price >= .3 && price <.6) socket.emit('ping', JSON.stringify({ stock: 'TSLA', value: Math.random() }));
+  	if (price >= .6) socket.emit('ping', JSON.stringify({ stock: 'AAPL', value: Math.random() }));
+  	if (price) socket.emit('ping', JSON.stringify({ stock: 'FORD', value: Math.random() }));
+  	if (price) socket.emit('ping', JSON.stringify({ stock: 'MSFT', value: Math.random() }));
+  	if (price>.4) socket.emit('ping', JSON.stringify({ stock: 'TWTR', value: Math.random() }));
+  	if (price>.8) socket.emit('ping', JSON.stringify({ stock: 'GOOG', value: Math.random() }));
   }
+  
   //receive a pong
   socket.on('pong', function (data) {
     console.log(data.message);
@@ -51,7 +51,6 @@ function handleRequest(request, response){
       
       allParks=JSON.parse(data);
       if (request.method == 'POST') {
-      		
             response.end(data);
       }
     });

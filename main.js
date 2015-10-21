@@ -1,7 +1,7 @@
 
 feed = (function () {
   var socket;
-  function StartHttpServer(callback1, callback2){
+  function StartHttpServer(callback2){
 	var serverAddress='http://127.0.0.1:1337/files/posts.json';
 	var method="POST";
 	var xhr=new XMLHttpRequest();
@@ -10,11 +10,11 @@ feed = (function () {
 	xhr.setRequestHeader("Content-type", "json");
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.onreadystatechange = function() {
-		alert(xhr.readyState+" "+xhr.status);
+		//alert(xhr.readyState+" "+xhr.status);
   		if (xhr.readyState == 4 && xhr.status == 200) {
   			//alert(xhr.responseText);
   			//addContent(xhr.responseText);
-  			callback1(xhr.responseText);
+  			callback2(xhr.responseText);
   			StartSocketServer(callback2);
   		}
 	}
@@ -49,9 +49,9 @@ function StartSocketServer(callback2){
 
 
 return {
-		onConnect: function(callback1, callback2){ 
+		onConnect: function( callback2){ 
 			//callback2(StartHttpServer()); 
-			StartHttpServer(callback2, callback2); 
+			StartHttpServer( callback2); 
 		},
         onChange: function(callback) {
         	if (socket) {
