@@ -52,6 +52,7 @@ function handleRequest(request, response){
     
       if (request.method == 'POST') {
             response.end(data);
+            
       }
     });
 }
