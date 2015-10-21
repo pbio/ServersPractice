@@ -6,7 +6,7 @@ io.on('connection', function(socket){
   //emit on connect
   socket.emit('ping', { message: 'You have just landed on Mars' + Date.now() });
   //updates every 2 seconds
-  setInterval(simulateUpdate, 500);
+  setInterval(simulateUpdate, 10000);
   function simulateUpdate(){
   	var price=Math.random();
   	
@@ -43,16 +43,16 @@ function handleRequest(request, response){
     var thisPark="";
 	fs.readFile(__dirname + request.url, function (err,data) {
       if (err) {
+      	console.log("we have an error!!");
         response.writeHead(404);
         response.end(JSON.stringify(err));
         return;
       }
-      console.log(data);
+      
       allParks=JSON.parse(data);
-    
       if (request.method == 'POST') {
+      		
             response.end(data);
-            
       }
     });
 }

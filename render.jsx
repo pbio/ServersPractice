@@ -1,19 +1,41 @@
 var HomePage = React.createClass({
     getInitialState: function() {
-        feed.onConnect(function(string){
-        	if (string) return {stocks: string};
-        	else return {stocks: ""};
-        }.bind(this));
-        return {stocks: ""};
+    	return {stocks: "The stocks haven't been loaded yet!"};
+        
 	},	
-    componentDidMount: function() {
-        feed.onChange(function(string) {
+	
+	loadStatusFromServer: function() {
+		feed.onConnect(
+			//callback1
+		  function(string){
+        	if (string) {
+        		alert("String is real");
+        		this.setState({stocks: string});
+        	}
+        	else {
+        		alert("String is not working!!");
+        	}
+          }.bind(this), 
+        	//callback2
+          function(string) {
+        	alert("quick pause");
         	if (string) { 
         		console.log(JSON.stringify(string));
         		this.setState({stocks: JSON.stringify(string)});
         	}
-        }.bind(this));
-        
+          }.bind(this)
+        ); 
+  	},
+	
+    componentDidMount: function() {
+    	this.loadStatusFromServer();
+        //feed.onChange(function(string) {
+        //	alert("quick pause");
+        //	if (string) { 
+        //		console.log(JSON.stringify(string));
+        //		this.setState({stocks: JSON.stringify(string)});
+        //	}
+        //}.bind(this));
     },
     
     
@@ -25,6 +47,7 @@ var HomePage = React.createClass({
                 </div>
             </div>
         );
+        
     }
 });
 
